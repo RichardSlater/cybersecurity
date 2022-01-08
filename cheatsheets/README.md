@@ -1,0 +1,4 @@
+ - [Setup](0-setup.md)
+ - [Discovery](0-discovery.md)
+ - [Foothold](0-foothold.md)
+ - [Exploitation](0-exploitation.md)
