@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+if [ -n "$1" ]; then
+  vpn=$1
+else
+  echo "Please supply a VPN connection to connect to."
+  exit
+fi
+
+if [ -f "$HOME/vpn/$vpn.ovpn" ]; then
+  ovpnFile="$HOME/vpn/$vpn.ovpn"
+else
+  echo "Could not find $vpn in ~/vpn"
+  exit
+fi
+
+sudo openvpn --config $ovpnFile

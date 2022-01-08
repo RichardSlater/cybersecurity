@@ -42,7 +42,7 @@ CURL
 
 Send HEAD request to IP:80
 ```
-curl -I http://$IP/
+curl -I http://$RHOST/
 ```
 
 GoBuster
@@ -136,7 +136,7 @@ Bruteforce a login page
 [Guide](https://infinitelogins.com/2020/02/22/how-to-brute-force-websites-using-hydra/)
 
 ```
-sudo hydra -l admin -P /usr/share/wordlists/rockyou.txt $IP http-post-form "/login.php:username=admin&password=^PASS^:Invalid Username or Password"
+sudo hydra -l admin -P /usr/share/wordlists/rockyou.txt $RHOST http-post-form "/login.php:username=admin&password=^PASS^:Invalid Username or Password"
 ---
 
 Reverse a hash
