@@ -50,7 +50,7 @@ GoBuster
 
 Quick scan of URL
 ```
-gobuster dir --wordlist ~/user/share/seclists/Discovery/Web-Content/common.txt --url $RURL
+gobuster dir --wordlist /usr/share/seclists/Discovery/Web-Content/common.txt --url $RURL
 ```
 
 Moderately thurough scan
