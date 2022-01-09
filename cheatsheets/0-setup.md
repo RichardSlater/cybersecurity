@@ -79,6 +79,13 @@ echo "source ~/peda/peda.py" >> ~/.gdbinit
 echo "DONE! debug your program with gdb and enjoy"
 ```
 
+Install autorecon
+```
+sudo apt install -y seclists curl enum4linux feroxbuster impacket-scripts nbtscan nikto nmap onesixtyone oscanner redis-tools smbclient smbmap snmp sslscan sipvicious tnscmd10g whatweb wkhtmltopdf python3-venv
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+```
+
 Environment Setup
 =================
 
@@ -103,9 +110,11 @@ RURL=$RPROTOCOL://$RHOST:$RPORT/
 LHOST=`ip a | grep eth0 | awk -v RS='([0-9]+\\.){3}[0-9]+/[0-9]+' 'RT{print RT}' | sed -r 's/[^0-9.]+/\n/' | head -1`
 LPORT=4343
 WPSCAN_API_TOKEN=[TOKEN]
+PROJECTDIR=$HOME/projects/PROJECT_NAME
 ```
 
 This `.env` can be imported through the following command:
 ```
 source .env
 ```
+

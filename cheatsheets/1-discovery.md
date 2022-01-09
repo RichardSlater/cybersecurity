@@ -6,7 +6,7 @@ Rustscan
 
 Scan an IP:
 ```
-rustscan -a $RHOSTS --ulimit 5000
+rustscan -a $RHOSTS --ulimit 5000 --range 1-65535 -- -oX $PROJECTDIR/nmap.xml -sC
 ```
 
 Nmap
@@ -14,27 +14,27 @@ Nmap
 
 Scan TCP Ports:
 ```
-nmap -sV $RHOSTS
+sudo nmap -sV $RHOSTS -oX $PROJECTDIR/nmap.xml
 ```
 	
 Scan TCP ports and run scripts against open ports:
 ```
-nmap -sV -sC $RHOSTS
+sudo nmap -sV -sC $RHOSTS -oX $PROJECTDIR/nmap.xml
 ```
 	
-Scan UDP ports and run scriptions against open ports:
+Scan UDP ports and run scripts against open ports:
 ```
-sudo nmap -sU -sC $RHOSTS
+sudo nmap -sU -sC $RHOSTS -oX $PROJECTDIR/nmap-udp.xml
 ```
 
 nmap ignore firewall
 ```
-nmap -sC -Pn $RHOSTS
+sudo nmap -sV -sC -Pn $RHOSTS -oX $PROJECTDIR/nmap.xml
 ```
 
 Scan for smb vulns
 ```
-nmap --script smb-vuln* -p 445 -oA nmap/smv_vuln $RHOSTS
+sudo nmap --script smb-vuln* -p 445 -oA nmap/smv_vuln $RHOSTS -oX $PROJECTDIR/nmap-smb.xml
 ```
 
 CURL
@@ -50,17 +50,32 @@ GoBuster
 
 Quick scan of URL
 ```
-gobuster dir --wordlist /usr/share/seclists/Discovery/Web-Content/common.txt --url $RURL
+gobuster dir --wordlist /usr/share/seclists/Discovery/Web-Content/common.txt --url $RURL --output $PROJECTDIR/gobuster.txt
 ```
 
 Moderately thurough scan
 ```
-gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt --url $RURL
+gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt --url $RURL --output $PROJECTDIR/gobuster.txt
 ```
 
 Scan for PHP paths
 ```
-gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -e -s "200,301,302,401" -x "php" -t 100 --url $RURL
+gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -e -s "200,301,302,401" -x "php" -t 100 --url $RURL --output $PROJECTDIR/gobuster.txt
+```
+
+Scan a big list of directories
+```
+gobuster dir --wordlist /usr/share/wordlists/seclists/Discovery/Web-Content/big.txt --url $RURL --output $PROJECTDIR/gobuster-big.txt
+```
+
+Scan common directories
+```
+gobuster dir --wordlist /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt --url $RURL --output $PROJECTDIR/gobuster-common.txt
+```
+
+Scan bit list of files
+```
+gobuster dir --wordlist /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files.txt --url $RURL --output $PROJECTDIR/gobuster-raft.txt
 ```
 
 SMBClient
@@ -153,4 +168,27 @@ GDB
 Check security on a binary
 ```
 checksec $file
+```
+
+wfuzz
+-----
+
+Fuzz for parameters:
+```
+wfuzz -c -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -u "$RURL?known=param&FUZZ=param" --hh [[EXPECTED CHARS LENGTH]]
+```
+
+sqlmap
+------
+
+Look for vulnerable payloads by fuzzing a request.  To get `request.txt` submit a form using burpsuite then save the raw request as `request.txt` in `$PROJECTDIR`.
+```
+sqlmap -r $PROJECTDIR/request.txt --dbs
+```
+
+autorecon
+---------
+
+```
+autorecon $RHOSTS
 ```

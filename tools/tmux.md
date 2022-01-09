@@ -23,4 +23,4 @@ Split Horizantal | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>-</kbd>
 Split Vertical   | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>shift</kbd> + <kbd>-</kbd>
 Switch Windows   | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>o</kbd>
 Switch Sessions  | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>shift</kbd> + <kbd>o</kbd> 
-Maximise Pane    | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>z</kbd> 
+Zoom Pane        | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>z</kbd> 
