@@ -86,6 +86,11 @@ python3 -m pip install --user pipx
 python3 -m pipx ensurepath
 ```
 
+Generate throwaway SSH key
+```
+ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/id_trash_ed25519 -C "htb@example.com"
+```
+
 Environment Setup
 =================
 
@@ -107,7 +112,7 @@ RHOST=<Target IP>
 RPORT=<Target Port>
 RPROTOCOL=http
 RURL=$RPROTOCOL://$RHOST:$RPORT/
-LHOST=`ip a | grep eth0 | awk -v RS='([0-9]+\\.){3}[0-9]+/[0-9]+' 'RT{print RT}' | sed -r 's/[^0-9.]+/\n/' | head -1`
+LHOST=`ip a | grep tun0 | awk -v RS='([0-9]+.){3}[0-9]+/[0-9]+' 'RT{print RT}' | sed -r 's/[^0-9.]+/\n/' | head -1`
 LPORT=4343
 WPSCAN_API_TOKEN=[TOKEN]
 PROJECTDIR=$HOME/projects/PROJECT_NAME

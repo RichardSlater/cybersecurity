@@ -22,9 +22,9 @@ Scan TCP ports and run scripts against open ports:
 sudo nmap -sV -sC $RHOSTS -oX $PROJECTDIR/nmap.xml
 ```
 	
-Scan UDP ports and run scripts against open ports:
+Scan top 20 UDP ports and run scripts against open ports:
 ```
-sudo nmap -sU -sC $RHOSTS -oX $PROJECTDIR/nmap-udp.xml
+sudo nmap -Pn -sU -sV -sC --top-ports=20 -oN $PROJECTDIR/top_20_udp_nmap.txt $RHOST
 ```
 
 nmap ignore firewall
@@ -35,6 +35,11 @@ sudo nmap -sV -sC -Pn $RHOSTS -oX $PROJECTDIR/nmap.xml
 Scan for smb vulns
 ```
 sudo nmap --script smb-vuln* -p 445 -oA nmap/smv_vuln $RHOSTS -oX $PROJECTDIR/nmap-smb.xml
+```
+
+An all-TCP-port version scan (SYN Stealth Scan, **Slow**)
+```
+sudo nmap -sSV -T4 -O -p0-65535 -Pn $HOST
 ```
 
 CURL
@@ -55,7 +60,7 @@ gobuster dir --wordlist /usr/share/seclists/Discovery/Web-Content/common.txt --u
 
 Moderately thurough scan
 ```
-gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt --url $RURL --output $PROJECTDIR/gobuster.txt
+gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt --url $RURL --output $PROJECTDIR/gobuster-medium.txt
 ```
 
 Scan for PHP paths
@@ -133,7 +138,7 @@ wpscan --url $URL --detection-mode aggressive
 General Vulnerability Scan
 --------------------------
 ```
-nikto --host $URL
+nikto --host $RURL
 ```
 
 Useful Linux Paths
@@ -158,7 +163,7 @@ Reverse a hash
 --------------
 
 ```
-echo "{salt}" > hash
+echo "{hash}" > hash
 hashcat -a 0 -m 500 hash /usr/share/wordlists/rockyou.txt
 ```
 

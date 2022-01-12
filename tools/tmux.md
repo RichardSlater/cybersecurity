@@ -24,3 +24,4 @@ Split Vertical   | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>shift</kbd> + <kbd>-</kb
 Switch Windows   | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>o</kbd>
 Switch Sessions  | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>shift</kbd> + <kbd>o</kbd> 
 Zoom Pane        | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>z</kbd> 
+Close Pane       | <kbd>ctrl</kbd> + <kbd>b</kbd>, <kbd>x</kbd>
