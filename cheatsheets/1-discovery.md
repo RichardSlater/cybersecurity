@@ -78,12 +78,9 @@ Focus on PHP files
 gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -e -s "200,301,302,401" -x "php" -t 100 --url $RURL --output $PROJECTDIR/gobuster.txt
 ```
 
-Fuff
-----
-
-Look for files
+Look for files (Basic Auth = admin:admin)
 ```
-ffuf -c -H 'Authentication: Basic YWRtaW46YWRtaW4=' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files-lowercase.txt -u http://driver.htb/FUZZ -e .php,.zip,.txt,.pdf
+ffuf -c -H 'Authentication: Basic YWRtaW46YWRtaW4=' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files-lowercase.txt -u $RURL/FUZZ -e .php,.zip,.txt,.pdf
 ```
 
 SMBClient
@@ -157,7 +154,7 @@ WPScan
 
 ```
 sudo gem install wpscan
-wpscan --url $URL --detection-mode aggressive
+wpscan --url $RURL --detection-mode aggressive
 ```
 
 General Vulnerability Scan
@@ -173,15 +170,6 @@ Useful Linux Paths
 /etc/passwd
 /etc/shadow
 /etc/crontab
-```
-
-Bruteforce a login page
------------------------
-
-[Guide](https://infinitelogins.com/2020/02/22/how-to-brute-force-websites-using-hydra/)
-
-```
-sudo hydra -l admin -P /usr/share/wordlists/rockyou.txt $RIP http-post-form "/login.php:username=admin&password=^PASS^:Invalid Username or Password"
 ```
 
 Reverse a hash
@@ -200,14 +188,6 @@ Check security on a binary
 checksec $file
 ```
 
-wfuzz
------
-
-Fuzz for parameters:
-```
-wfuzz -c -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -u "$RURL?known=param&FUZZ=param" --hh [[EXPECTED CHARS LENGTH]]
-```
-
 sqlmap
 ------
 
@@ -223,11 +203,21 @@ autorecon
 autorecon $RIP
 ```
 
-fuff
-----
+Fuzzing and Bruteforcing
+------------------------
 
-Fuzz subdomains:
+[Guide](https://infinitelogins.com/2020/02/22/how-to-brute-force-websites-using-hydra/)
 
 ```
-ffuf -c -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-20000.txt -u $RIP -H "Host: FUZZ.machine" -mc 200
+sudo hydra -l admin -P /usr/share/wordlists/rockyou.txt $RIP http-post-form "/login.php:username=admin&password=^PASS^:Invalid Username or Password"
+```
+
+Fuzz subdomains:
+```
+ffuf -c -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-20000.txt -u http://$RIP -H "Host: FUZZ.machine" -mc 200
+```
+
+Fuzz parameters:
+```
+wfuzz -c -w /usr/share/wordlists/seclists/Discovery/Web-Content/burp-parameter-names.txt -u "$RURL?known=param&FUZZ=param" --hh [[EXPECTED CHARS LENGTH]]
 ```
