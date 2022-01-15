@@ -6,7 +6,7 @@ Rustscan
 
 Scan an IP:
 ```
-rustscan -a $RHOSTS --ulimit 5000 --range 1-65535 -- -oX $PROJECTDIR/nmap.xml -sC
+rustscan -a $RIPS --ulimit 5000 --range 1-65535 -- -oX $PROJECTDIR/nmap.xml -sC
 ```
 
 Nmap
@@ -14,27 +14,27 @@ Nmap
 
 Scan TCP Ports:
 ```
-sudo nmap -sV $RHOSTS -oX $PROJECTDIR/nmap.xml
+sudo nmap -sV $RIPS -oX $PROJECTDIR/nmap.xml
 ```
 	
 Scan TCP ports and run scripts against open ports:
 ```
-sudo nmap -sV -sC $RHOSTS -oX $PROJECTDIR/nmap.xml
+sudo nmap -sV -sC $RIPS -oX $PROJECTDIR/nmap.xml
 ```
 	
 Scan top 20 UDP ports and run scripts against open ports:
 ```
-sudo nmap -Pn -sU -sV -sC --top-ports=20 -oN $PROJECTDIR/top_20_udp_nmap.txt $RHOST
+sudo nmap -Pn -sU -sV -sC --top-ports=20 -oN $PROJECTDIR/top_20_udp_nmap.txt $RIP
 ```
 
 nmap ignore firewall
 ```
-sudo nmap -sV -sC -Pn $RHOSTS -oX $PROJECTDIR/nmap.xml
+sudo nmap -sV -sC -Pn $RIPS -oX $PROJECTDIR/nmap.xml
 ```
 
 Scan for smb vulns
 ```
-sudo nmap --script smb-vuln* -p 445 -oA nmap/smv_vuln $RHOSTS -oX $PROJECTDIR/nmap-smb.xml
+sudo nmap --script smb-vuln* -p 445 -oA nmap/smv_vuln $RIPS -oX $PROJECTDIR/nmap-smb.xml
 ```
 
 An all-TCP-port version scan (SYN Stealth Scan, **Slow**)
@@ -47,49 +47,74 @@ CURL
 
 Send HEAD request to IP:80
 ```
-curl -I http://$RHOST/
+curl -I http://$RIP/
 ```
 
 GoBuster
 --------
 
-Quick scan of URL
+Quick scan of a URL
 ```
 gobuster dir --wordlist /usr/share/seclists/Discovery/Web-Content/common.txt --url $RURL --output $PROJECTDIR/gobuster.txt
 ```
 
-Moderately thurough scan
+Medium scan of a URL
 ```
 gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt --url $RURL --output $PROJECTDIR/gobuster-medium.txt
 ```
 
-Scan for PHP paths
-```
-gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -e -s "200,301,302,401" -x "php" -t 100 --url $RURL --output $PROJECTDIR/gobuster.txt
-```
-
-Scan a big list of directories
+Big scan of a URL
 ```
 gobuster dir --wordlist /usr/share/wordlists/seclists/Discovery/Web-Content/big.txt --url $RURL --output $PROJECTDIR/gobuster-big.txt
 ```
 
-Scan common directories
-```
-gobuster dir --wordlist /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt --url $RURL --output $PROJECTDIR/gobuster-common.txt
-```
-
-Scan bit list of files
+Huge scan of a URL
 ```
 gobuster dir --wordlist /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files.txt --url $RURL --output $PROJECTDIR/gobuster-raft.txt
+```
+
+Focus on PHP files
+```
+gobuster dir --wordlist /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -e -s "200,301,302,401" -x "php" -t 100 --url $RURL --output $PROJECTDIR/gobuster.txt
+```
+
+Fuff
+----
+
+Look for files
+```
+ffuf -c -H 'Authentication: Basic YWRtaW46YWRtaW4=' -w /usr/share/wordlists/seclists/Discovery/Web-Content/raft-large-files-lowercase.txt -u http://driver.htb/FUZZ -e .php,.zip,.txt,.pdf
 ```
 
 SMBClient
 ---------
 
+Enumerate shares:
+```
+nmap -Pn -n -sT -sC -p139,445
+```
+or
+```
+nmap -Pn --script smb-enum-shares -p 139,445 [ip]
+```
+
 Identifying open shares with directory listing:
 ```
 while read i; do smbmap -H $i 2>/dev/null; done < <Target IP File> | grep -v Finding | grep -v Authentication
 ```
+
+Check anonymous shares:
+```
+smbclient -L \\test.local -I $RIP -N
+```
+
+Scan SMB ports:
+```
+nmap -Pn -n -sT -sC -p139,445 $RIP
+```
+
+XML
+---
 
 Vulnerable XML through external entities
 ```
@@ -156,8 +181,8 @@ Bruteforce a login page
 [Guide](https://infinitelogins.com/2020/02/22/how-to-brute-force-websites-using-hydra/)
 
 ```
-sudo hydra -l admin -P /usr/share/wordlists/rockyou.txt $RHOST http-post-form "/login.php:username=admin&password=^PASS^:Invalid Username or Password"
----
+sudo hydra -l admin -P /usr/share/wordlists/rockyou.txt $RIP http-post-form "/login.php:username=admin&password=^PASS^:Invalid Username or Password"
+```
 
 Reverse a hash
 --------------
@@ -195,5 +220,14 @@ autorecon
 ---------
 
 ```
-autorecon $RHOSTS
+autorecon $RIPS
+```
+
+fuff
+----
+
+Fuzz subdomains:
+
+```
+ffuf -c -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-20000.txt -u $RIP -H "Host: FUZZ.machine" -mc 200
 ```

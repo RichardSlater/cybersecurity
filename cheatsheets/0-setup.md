@@ -9,7 +9,7 @@ wget https://github.com/RustScan/RustScan/releases/download/2.0.1/rustscan_2.0.1
 sudo dpkg -i rustscan_2.0.1_amd64.deb
 ```
 
-SecLists (installed to `/usr/share/seclists/`)
+SecLists (installed to `/usr/share/wordlists/seclists`)
 ```
 sudo apt install seclists
 ``` 
@@ -107,15 +107,11 @@ mkdir ~/projects/PROJECT_NAME
 I store some key variables in a `.env` file stored in a project folder:
 
 ```
-RHOSTS=<IPs to scan>
-RHOST=<Target IP>
+RIP=<Target IP>
 RPORT=<Target Port>
-RPROTOCOL=http
-RURL=$RPROTOCOL://$RHOST:$RPORT/
-LHOST=`ip a | grep tun0 | awk -v RS='([0-9]+.){3}[0-9]+/[0-9]+' 'RT{print RT}' | sed -r 's/[^0-9.]+/\n/' | head -1`
+LIP=`ip a | grep tun0 | awk -v RS='([0-9]+.){3}[0-9]+/[0-9]+' 'RT{print RT}' | sed -r 's/[^0-9.]+/\n/' | head -1`
 LPORT=4343
-WPSCAN_API_TOKEN=[TOKEN]
-PROJECTDIR=$HOME/projects/PROJECT_NAME
+PROJECTDIR=$HOME/projects/<PROJECT_NAME>
 ```
 
 This `.env` can be imported through the following command:

