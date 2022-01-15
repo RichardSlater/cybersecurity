@@ -6,7 +6,7 @@ Rustscan
 
 Scan an IP:
 ```
-rustscan -a $RIPS --ulimit 5000 --range 1-65535 -- -oX $PROJECTDIR/nmap.xml -sC
+rustscan -a $RIP --ulimit 5000 --range 1-65535 -- -oX $PROJECTDIR/nmap.xml -sC
 ```
 
 Nmap
@@ -14,12 +14,12 @@ Nmap
 
 Scan TCP Ports:
 ```
-sudo nmap -sV $RIPS -oX $PROJECTDIR/nmap.xml
+sudo nmap -sV $RIP -oX $PROJECTDIR/nmap.xml
 ```
 	
 Scan TCP ports and run scripts against open ports:
 ```
-sudo nmap -sV -sC $RIPS -oX $PROJECTDIR/nmap.xml
+sudo nmap -sV -sC $RIP -oX $PROJECTDIR/nmap.xml
 ```
 	
 Scan top 20 UDP ports and run scripts against open ports:
@@ -29,12 +29,12 @@ sudo nmap -Pn -sU -sV -sC --top-ports=20 -oN $PROJECTDIR/top_20_udp_nmap.txt $RI
 
 nmap ignore firewall
 ```
-sudo nmap -sV -sC -Pn $RIPS -oX $PROJECTDIR/nmap.xml
+sudo nmap -sV -sC -Pn $RIP -oX $PROJECTDIR/nmap.xml
 ```
 
 Scan for smb vulns
 ```
-sudo nmap --script smb-vuln* -p 445 -oA nmap/smv_vuln $RIPS -oX $PROJECTDIR/nmap-smb.xml
+sudo nmap --script smb-vuln* -p 445 -oA nmap/smv_vuln $RIP -oX $PROJECTDIR/nmap-smb.xml
 ```
 
 An all-TCP-port version scan (SYN Stealth Scan, **Slow**)
@@ -220,7 +220,7 @@ autorecon
 ---------
 
 ```
-autorecon $RIPS
+autorecon $RIP
 ```
 
 fuff
