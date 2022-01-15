@@ -107,11 +107,12 @@ mkdir ~/projects/PROJECT_NAME
 I store some key variables in a `.env` file stored in a project folder:
 
 ```
-RIP=<Target IP>
-RPORT=<Target Port>
+PROJECT=[Project Name]
+RIP=[IP Address of Machine]
+RPORT=80
 LIP=`ip a | grep tun0 | awk -v RS='([0-9]+.){3}[0-9]+/[0-9]+' 'RT{print RT}' | sed -r 's/[^0-9.]+/\n/' | head -1`
-LPORT=4343
-PROJECTDIR=$HOME/projects/<PROJECT_NAME>
+LPORT=4242
+PROJECTDIR=$HOME/projects/$PROJECT
 ```
 
 This `.env` can be imported through the following command:
